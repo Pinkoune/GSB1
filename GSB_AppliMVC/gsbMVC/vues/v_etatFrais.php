@@ -56,6 +56,8 @@
           }
 		?>
     </table>
+    <form action=""></form>
+    <input type="submit">
   </div>
   </div>
  
