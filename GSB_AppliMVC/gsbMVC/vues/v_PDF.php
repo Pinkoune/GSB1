@@ -1,21 +1,21 @@
 <?php
   session_start();
   include "../fpdf/fpdf.php";
-  include 'fonctionCo.php';
-  $bdd = connexion();
+  $bdd = new PDO('mysql:host=172.16.203.211;dbname=gsb_frais;charset=utf8', 'sio', 'slam');
+  include '../include/class.pdogsb.inc.php';
   if ($bdd) {
-    $user = $_SESSION['user'];
+    $user = $_SESSION['idVisiteur'];
 
 
     $PDF = new fpdf();
     $PDF->AddPage();
     $PDF->SetFont("Arial","B",16);
     $PDF->SetTextColor(0,0,0);
-    $PDF->MultiCell(0, 10, "PDF de :\n" . $_SESSION['user'], 1, "C", 0);
-    $PDF->Image("../Image/logo.jpg", 80, 40, 50, 50);
+    $PDF->MultiCell(0, 10, "PDF de :\n" . $_SESSION['prenom'], 1, "C", 0);
+    $PDF->Image("../images/logo.jpg", 80, 40, 50, 50);
 
     $position = 120; 
-    $requete2 = mysqli_query($bdd,"SELECT * FROM panier WHERE userConnexion = '$user';");
+    $requete2 = $bdd->query("SELECT * FROM Visiteur WHERE login = '$user';");
 
     $PDF->SetTextColor(0,0,0);
 
@@ -25,7 +25,6 @@
     $PDF->SetFont("Arial","",16);
     $PDF->SetY($position-16);
     $PDF->SetX(135);
-    $PDF->MultiCell(60,8,utf8_decode($_SESSION['totalPanier']."e"),1,'C');
 
     $PDF->SetFont("Arial","B",16);
     $PDF->SetY($position-8);
@@ -42,10 +41,10 @@
 
     $PDF->SetTextColor(0,0,0);
 
-    while ($donne = mysqli_fetch_assoc($requete2)) {
+    while ($donne = $requete2->fetch()) {
       $idProduit = $donne['idProduit'];
-      $select = mysqli_query($bdd, "SELECT * FROM produit WHERE idProduit = '$idProduit';");
-      $donneesProduit = mysqli_fetch_assoc($select);
+      $select = $bdd->query($bdd, "SELECT * FROM produit WHERE idProduit = '$idProduit';");
+      $donneesProduit = $select->fetch();
       $PDF->SetFont("Arial","I",16);
 
       $PDF->SetY($position);
@@ -62,14 +61,14 @@
 
       $position += 8;
     }
-    mysqli_free_result($requete2);
 
     $PDF->Output();
-    $recupNbCommade = mysqli_query($bdd, "SELECT COUNT(*) AS nbCommade FROM commade WHERE userConnexion = '$user' ;");
-    $resultatNbCommade = mysqli_fetch_assoc($recupNbCommade);
+    $recupNbCommade = $bdd->query($bdd, "SELECT COUNT(*) AS nbCommade FROM commade WHERE userConnexion = '$user' ;");
+    $resultatNbCommade = $recupNbCommade->fetch();
     $nbCommade = $resultatNbCommade['nbCommade'];
     $nbCommade = $nbCommade + 1;
     $PDF->Output("commande/".$user.$nbCommade.".PDF", "F");
+  
   }
   else {
     echo "Erreur de connexion a la base de données";
