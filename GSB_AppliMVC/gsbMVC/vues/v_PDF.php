@@ -39,6 +39,7 @@
     $id = $mont['id'];
     $select = $bdd->query("SELECT * FROM LigneFraisHorsForfait WHERE idVisiteur = '$id';");
     $donneesVisiteur = $select->fetch();
+
     $PDF->SetFont("Arial","I",16);
 
     $PDF->SetY($position);
