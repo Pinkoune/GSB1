@@ -1,7 +1,7 @@
 <?php
   session_start();
   include "../fpdf/fpdf.php";
-  $bdd = new PDO('mysql:host=172.16.203.211;dbname=gsb_frais;charset=utf8', 'sio', 'slam');
+  $bdd = new PDO('mysql:host=localhost;dbname=gsb_frais;charset=utf8', 'root', '');
   include '../include/class.pdogsb.inc.php';
   if ($bdd) {
     $user = $_SESSION['idVisiteur'];
