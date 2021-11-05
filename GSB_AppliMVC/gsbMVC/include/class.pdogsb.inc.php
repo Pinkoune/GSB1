@@ -53,13 +53,14 @@ class PdoGsb{
  * @param $mdp
  * @return l'id, le nom et le prénom sous la forme d'un tableau associatif 
 */
-	public function getInfosVisiteur($login, $mdp){
-		$req = "select Visiteur.id as id, Visiteur.nom as nom, Visiteur.prenom as prenom from Visiteur 
-		where Visiteur.login='$login' and Visiteur.mdp='$mdp'";
-		$rs = PdoGsb::$monPdo->query($req);
-		$ligne = $rs->fetch();
-		return $ligne;
-	}
+public function getInfosVisiteur($login, $mdp){
+	$mdpc = sha1($mdp);
+	$req = "SELECT Visiteur.id AS id, Visiteur.nom AS nom, Visiteur.prenom AS prenom,Visiteur.typeUtilisateur AS typeUtilisateur FROM Visiteur 
+	WHERE Visiteur.login='$login' and Visiteur.mdp='$mdpc'";
+	$rs = PdoGsb::$monPdo->query($req);
+	$ligne = $rs->fetch();
+	return $ligne;
+}
 
 /**
  * Retourne sous forme d'un tableau associatif toutes les lignes de frais hors forfait
