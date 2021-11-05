@@ -6,7 +6,7 @@
     
 </h2>
     
-      </div>  
+      </div>
         <ul id="menuList">
 			<li >
 				  Visiteur :<br>
@@ -26,6 +26,5 @@
          ?>
            </li>
          </ul>
-        
     </div>
     
