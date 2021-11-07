@@ -10,20 +10,33 @@ SET NAMES utf8mb4;
 CREATE DATABASE `gsb_frais` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
 USE `gsb_frais`;
 
-DROP TABLE IF EXISTS `Etat`;
+CREATE TABLE `FraisForfait` (
+  `id` char(3) NOT NULL,
+  `libelle` char(20) DEFAULT NULL,
+  `montant` decimal(5,2) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 CREATE TABLE `Etat` (
   `id` char(2) NOT NULL,
   `libelle` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `Etat` (`id`, `libelle`) VALUES
-('CL',	'Saisie clôturée'),
-('CR',	'Fiche créée, saisie en cours'),
-('RB',	'Remboursée'),
-('VA',	'Validée et mise en paiement');
+CREATE TABLE `Visiteur` (
+  `id` char(4) NOT NULL,
+  `nom` char(30) DEFAULT NULL,
+  `prenom` char(30) DEFAULT NULL,
+  `login` char(20) DEFAULT NULL,
+  `mdp` char(100) DEFAULT NULL,
+  `adresse` char(30) DEFAULT NULL,
+  `cp` char(5) DEFAULT NULL,
+  `ville` char(30) DEFAULT NULL,
+  `dateEmbauche` date DEFAULT NULL,
+  `statut` char(1) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-DROP TABLE IF EXISTS `FicheFrais`;
 CREATE TABLE `FicheFrais` (
   `idVisiteur` char(4) NOT NULL,
   `mois` char(6) NOT NULL,
@@ -37,25 +50,6 @@ CREATE TABLE `FicheFrais` (
   CONSTRAINT `FicheFrais_ibfk_2` FOREIGN KEY (`idVisiteur`) REFERENCES `Visiteur` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `FicheFrais` (`idVisiteur`, `mois`, `nbJustificatifs`, `montantValide`, `dateModif`, `idEtat`) VALUES
-('b25',	'202109',	0,	0.00,	'2021-09-16',	'CR'),
-('b34',	'202109',	0,	0.00,	'2021-09-16',	'CR');
-
-DROP TABLE IF EXISTS `FraisForfait`;
-CREATE TABLE `FraisForfait` (
-  `id` char(3) NOT NULL,
-  `libelle` char(20) DEFAULT NULL,
-  `montant` decimal(5,2) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-INSERT INTO `FraisForfait` (`id`, `libelle`, `montant`) VALUES
-('ETP',	'Forfait Etape',	110.00),
-('KM',	'Frais Kilométrique',	0.65),
-('NUI',	'Nuitée Hôtel',	80.00),
-('REP',	'Repas Restaurant',	25.00);
-
-DROP TABLE IF EXISTS `LigneFraisForfait`;
 CREATE TABLE `LigneFraisForfait` (
   `idVisiteur` char(4) NOT NULL,
   `mois` char(6) NOT NULL,
@@ -67,17 +61,6 @@ CREATE TABLE `LigneFraisForfait` (
   CONSTRAINT `LigneFraisForfait_ibfk_2` FOREIGN KEY (`idFraisForfait`) REFERENCES `FraisForfait` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `LigneFraisForfait` (`idVisiteur`, `mois`, `idFraisForfait`, `quantite`) VALUES
-('b25',	'202109',	'ETP',	546),
-('b25',	'202109',	'KM',	45645),
-('b25',	'202109',	'NUI',	4564),
-('b25',	'202109',	'REP',	78978),
-('b34',	'202109',	'ETP',	0),
-('b34',	'202109',	'KM',	0),
-('b34',	'202109',	'NUI',	0),
-('b34',	'202109',	'REP',	0);
-
-DROP TABLE IF EXISTS `LigneFraisHorsForfait`;
 CREATE TABLE `LigneFraisHorsForfait` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `idVisiteur` char(4) NOT NULL,
@@ -88,23 +71,6 @@ CREATE TABLE `LigneFraisHorsForfait` (
   PRIMARY KEY (`id`),
   KEY `idVisiteur` (`idVisiteur`,`mois`),
   CONSTRAINT `LigneFraisHorsForfait_ibfk_1` FOREIGN KEY (`idVisiteur`, `mois`) REFERENCES `FicheFrais` (`idVisiteur`, `mois`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-INSERT INTO `LigneFraisHorsForfait` (`id`, `idVisiteur`, `mois`, `libelle`, `date`, `montant`) VALUES
-(1,	'b25',	'202109',	'ouioui tkt',	'2021-09-17',	4873.00);
-
-DROP TABLE IF EXISTS `Visiteur`;
-CREATE TABLE `Visiteur` (
-  `id` char(4) NOT NULL,
-  `nom` char(30) DEFAULT NULL,
-  `prenom` char(30) DEFAULT NULL,
-  `login` char(20) DEFAULT NULL,
-  `mdp` char(200) DEFAULT NULL,
-  `adresse` char(30) DEFAULT NULL,
-  `cp` char(5) DEFAULT NULL,
-  `ville` char(30) DEFAULT NULL,
-  `dateEmbauche` date DEFAULT NULL,
-  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `Visiteur` (`id`, `nom`, `prenom`, `login`, `mdp`, `adresse`, `cp`, `ville`, `dateEmbauche`) VALUES

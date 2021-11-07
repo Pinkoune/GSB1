@@ -1,21 +1,30 @@
-<div id="contenu">
-      <h2>Identification des comptables</h2>
-
-
-<form method="POST" action="index.php?uc=connexion&action=valideConnexion">
-   
+    <!-- Division pour le sommaire -->
+    <div id="menuGauche">
+     <div id="infosUtil">
     
-			<p>
-       <label for="nom">Login*</label>
-       <input id="login" type="text" name="login"  size="30" maxlength="45">
-      </p>
-			<p>
-				<label for="mdp">Mot de passe*</label>
-			  <input id="mdp"  type="password"  name="mdp" size="30" maxlength="45">
-      </p>
-         <input type="submit" value="Valider" name="valider">
-         <input type="reset" value="Annuler" name="annuler"> 
-      </p>
-</form>
-
-</div>
+        <h2>
+    
+</h2>
+    
+      </div>
+            <ul id="menuList">
+                  <li >
+                        Comptable :<br>
+                        <?php echo $_SESSION['prenom']."  ".$_SESSION['nom']  ?>
+                  </li>
+                  <li class="smenu">
+                        <a href="index.php?uc=validerFrais&action=saisirFrais" title="Valider les fiche de frais">Valider fiche de frais</a>
+                  </li>
+                  <li class="smenu">
+                        <a href="index.php?uc=suivrePaiement&action=selectionnerMois" title="Suivre le paiement des fiches de frais">Suivre le paiement des fiches de frais</a>
+                  </li>
+                  <li class="smenu">
+                        <?php
+                        if(!empty($_SESSION['idVisiteur'])){
+                              echo '<a href="index.php?uc=gererFrais&action=deconnexion" title="Se déconnecter">Déconnexion</a>';
+                        }
+                        ?>
+                  </li>
+            </ul>
+    </div>
+    
