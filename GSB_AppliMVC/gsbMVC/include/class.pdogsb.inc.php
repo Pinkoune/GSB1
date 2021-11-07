@@ -17,8 +17,8 @@
 
 class PdoGsb{   		
       	private static $serveur='mysql:host=localhost';
-      	private static $bdd='dbname=gsb_frais';
-      	private static $user='root' ;
+      	private static $bdd='dbname=gsb_frais';   		
+      	private static $user='root' ;    		
       	private static $mdp='' ;
 		private static $monPdo;
 		private static $monPdoGsb=null;
@@ -298,5 +298,18 @@ public function getInfosVisiteur($login, $mdp){
 		WHERE FicheFrais.idVisiteur ='$idVisiteur' and FicheFrais.mois = '$mois'";
 		PdoGsb::$monPdo->exec($req);
 	}
+
+	public function afficherFicheFrais(){
+		$req = "SELECT * FROM fichefrais;";
+		pdoGsb::$monPdo->exec($req);
+	}
+
+  	public function changerEtat($etat,$idVisiteur,$mois,$dateModif){
+		$req = "update FicheFrais SET FicheFrais.idEtat = '$etat' WHERE FicheFrais.idVisiteur = '$idVisiteur' and FicheFrais.mois = '$mois'";
+    	$req2 = "update FicheFrais SET FicheFrais.dateModif = '$dateModif' WHERE FicheFrais.idVisiteur = '$idVisiteur' and FicheFrais.mois = '$mois'";
+        PdoGsb::$monPdo->exec($req);
+    	PdoGsb::$monPdo->exec($req2);
+  }
+}
 }
 ?>

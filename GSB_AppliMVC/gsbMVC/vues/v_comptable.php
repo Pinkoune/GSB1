@@ -16,7 +16,7 @@
                         <a href="index.php?uc=validerFrais&action=saisirFrais" title="Valider les fiche de frais">Valider fiche de frais</a>
                   </li>
                   <li class="smenu">
-                        <a href="index.php?uc=suivrePaiement&action=selectionnerMois" title="Suivre le paiement des fiches de frais">Suivre le paiement des fiches de frais</a>
+                        <a href="index.php?uc=afficherFrais&action=suivrePaiement" title="Suivre le paiement des fiches de frais">Suivre le paiement des fiches de frais</a>
                   </li>
                   <li class="smenu">
                         <?php
