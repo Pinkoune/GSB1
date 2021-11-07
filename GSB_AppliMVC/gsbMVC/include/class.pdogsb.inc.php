@@ -16,10 +16,10 @@
  */
 
 class PdoGsb{   		
-      	private static $serveur='mysql:host=172.16.203.211';
+      	private static $serveur='mysql:host=localhost';
       	private static $bdd='dbname=gsb_frais';   		
-      	private static $user='sio' ;    		
-      	private static $mdp='slam' ;	
+      	private static $user='root' ;    		
+      	private static $mdp='root' ;	
 		private static $monPdo;
 		private static $monPdoGsb=null;
 /**
@@ -55,7 +55,7 @@ class PdoGsb{
 */
 public function getInfosVisiteur($login, $mdp){
 	$mdpc = sha1($mdp);
-	$req = "SELECT Visiteur.id AS id, Visiteur.nom AS nom, Visiteur.prenom AS prenom,Visiteur.typeUtilisateur AS typeUtilisateur FROM Visiteur 
+	$req = "SELECT Visiteur.id AS id, Visiteur.nom AS nom, Visiteur.prenom AS prenom,Visiteur.statut AS statut FROM Visiteur 
 	WHERE Visiteur.login='$login' and Visiteur.mdp='$mdpc'";
 	$rs = PdoGsb::$monPdo->query($req);
 	$ligne = $rs->fetch();

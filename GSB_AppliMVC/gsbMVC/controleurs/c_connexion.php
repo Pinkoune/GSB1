@@ -12,7 +12,7 @@ switch($action){
         $_SESSION = array();
         $login = $_REQUEST['login'];
         $mdp = $_REQUEST['mdp'];
-        $visiteur = $pdo->getInfosVisiteurpublic($login,$mdp);
+        $visiteur = $pdo->getInfosVisiteur($login,$mdp);
         if(!is_array( $visiteur)){
             ajouterErreur("Login ou mot de passe incorrect");
             include("vues/v_erreurs.php");
@@ -22,8 +22,8 @@ switch($action){
             $id = $visiteur['id'];
             $nom =  $visiteur['nom'];
             $prenom = $visiteur['prenom'];
-            $typeUtilisateur = $visiteur['typeUtilisateur'];
-            connecter($id,$nom,$prenom,$typeUtilisateur);
+            $statut = $visiteur['statut'];
+            connecter($id,$nom,$prenom,$statut);
             include("vues/v_sommaire.php");
         }
         break;
