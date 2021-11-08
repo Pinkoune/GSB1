@@ -4,8 +4,9 @@ $action = $_REQUEST['action'];
 $idVisiteur = $_SESSION['idVisiteur'];
 switch($action){
     case 'suivrePaiement':{
-		include("vues/v_afficherFichesFrais.php");
-		break;
+      $laFicheFrais = $pdo->getLaFicheFrais($idVisiteur,$mois);
+      include("vues/v_afficherFichesFrais.php");
+		  break;
     }
 }
 ?>

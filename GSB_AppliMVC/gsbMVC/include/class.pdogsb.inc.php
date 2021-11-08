@@ -299,10 +299,20 @@ public function getInfosVisiteur($login, $mdp){
 		PdoGsb::$monPdo->exec($req);
 	}
 
-	public function afficherFicheFrais(){
-		$req = "SELECT * FROM fichefrais;";
-		pdoGsb::$monPdo->exec($req);
-	}
+	public function getLaFicheFrais($idVisiteur, $mois){
+		$req = "select FicheFrais.dateModif as dateModif, Visiteur.nom as nom, Visiteur.prenom
+	  as prenom, Etat.libelle as typeEtat, FicheFrais.idVisiteur as idVisiteur, FicheFrais.mois as mois
+	  from FicheFrais, Visiteur, Etat where Visiteur.id = FicheFrais.idVisiteur
+	  and FicheFrais.idEtat = Etat.id and FicheFrais.mois = '$mois' and FicheFrais.idVisiteur = '$idVisiteur'";
+		  $res = PdoGsb::$monPdo->query($req);
+		  $lesLignes = $res->fetchAll();
+		  $nbLignes = count($lesLignes);
+		  for ($i=0; $i<$nbLignes; $i++){
+			  $date = $lesLignes[$i]['dateModif'];
+			  $lesLignes[$i]['dateModif'] =  dateAnglaisVersFrancais($date);
+		  }
+		  return $lesLignes;
+	  }
 
   	public function changerEtat($etat,$idVisiteur,$mois,$dateModif){
 		$req = "update FicheFrais SET FicheFrais.idEtat = '$etat' WHERE FicheFrais.idVisiteur = '$idVisiteur' and FicheFrais.mois = '$mois'";
@@ -310,6 +320,5 @@ public function getInfosVisiteur($login, $mdp){
         PdoGsb::$monPdo->exec($req);
     	PdoGsb::$monPdo->exec($req2);
   }
-}
 }
 ?>

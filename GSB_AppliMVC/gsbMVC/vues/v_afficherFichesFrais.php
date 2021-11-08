@@ -12,10 +12,7 @@ foreach ( $laFicheFrais as $uneFicheFrais ){
     </h3>
     <div class="encadre">
       <form action="index.php?uc=afficherFrais&action=suivrePaiement" method="post">
-
-
-      
-        <table class="listeLegere">
+          <table class="listeLegere">
           <caption>Liste des fiches de frais
           </caption>
           <tr>
